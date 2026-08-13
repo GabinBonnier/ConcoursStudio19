@@ -1,0 +1,65 @@
+.login-wrapper { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; background: radial-gradient(ellipse at 50% 0%, rgba(201,162,39,0.07) 0%, transparent 65%); }
+.login-card { width: 100%; max-width: 420px; border: 1px solid var(--border-strong); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden; box-shadow: 0 0 80px rgba(201,162,39,0.06); }
+.login-logo { display: flex; justify-content: center; padding: 44px 24px 36px; background: #1c1c1c; border-bottom: 1px solid var(--border); }
+.login-logo__star { width: 260px; }
+.login-body { padding: 32px 28px 28px; }
+.login-title { font-family: var(--font-body); font-size: 16px; font-weight: 400; color: var(--gold-light); text-align: center; margin-bottom: 28px; }
+.login-hint { background: rgba(201,162,39,0.06); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; text-align: center; color: var(--gold); font-size: 12px; font-style: italic; margin-top: 16px; line-height: 1.6; }
+
+.quota-bar { display: flex; align-items: center; justify-content: space-between; background: rgba(201,162,39,0.06); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 8px; }
+.quota-bar__label { font-family: var(--font-display); font-size: 10px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
+.quota-bar__value { font-size: 13px; color: var(--gold); font-weight: 600; }
+
+.account-hero { padding: 24px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 8px; }
+.account-hero__name { font-family: var(--font-display); font-size: 20px; font-weight: 600; }
+.account-hero__email { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.account-hero__quota { font-size: 12px; color: var(--gold); margin-top: 8px; }
+
+.group-detail-header { display: flex; align-items: center; gap: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+.group-detail-header__info { flex: 1; }
+.group-detail-header__name { font-family: var(--font-display); font-size: 22px; font-weight: 600; }
+.group-detail-header__meta { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+.edit-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px 24px; }
+.edit-card__title { font-family: var(--font-display); font-size: 22px; font-weight: 600; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+.edit-card__accent { color: var(--pink); font-size: 30px; line-height: 0.8; }
+.edit-card__actions { display: flex; gap: 12px; margin-top: 8px; }
+
+.info-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.info-pill { display: flex; flex-direction: column; gap: 4px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; }
+.info-pill__label { font-family: var(--font-display); font-size: 9px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
+.info-pill__value { font-size: 13px; font-weight: 600; }
+.info-pill__value--green { color: var(--green); }
+
+.assoc-card { display: flex; align-items: center; gap: 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: border-color var(--transition); margin-bottom: 10px; }
+.assoc-card:hover { border-color: var(--border-strong); }
+.assoc-card__info { flex: 1; }
+.assoc-card__name { font-weight: 600; font-size: 14px; }
+.assoc-card__meta { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+.search-input { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 13px; outline: none; margin-bottom: 16px; transition: border-color var(--transition); }
+.search-input:focus { border-color: var(--gold); }
+.search-input::placeholder { color: var(--text-dim); }
+
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+.history-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; }
+.history-item__date { font-size: 12px; color: var(--text-muted); }
+.history-item__type { font-family: var(--font-display); font-size: 10px; letter-spacing: 1.5px; color: var(--gold); text-transform: uppercase; }
+
+.resend-box { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-top: 12px; }
+.resend-box__title { font-family: var(--font-display); font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.resend-box__desc { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.6; }
+
+.notif-list { display: flex; flex-direction: column; gap: 10px; }
+.notif-card { display: flex; align-items: flex-start; gap: 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: var(--radius); padding: 16px; cursor: pointer; }
+.notif-card--read { border-left-color: var(--border); opacity: 0.65; }
+.notif-card__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); margin-top: 4px; flex-shrink: 0; }
+.notif-card--read .notif-card__dot { background: var(--text-dim); }
+.notif-card__body { flex: 1; }
+.notif-card__text { font-size: 13px; line-height: 1.5; }
+.notif-card__time { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+
+.deadline-banner { display: flex; align-items: center; gap: 10px; background: rgba(231,76,60,0.08); border: 1px solid rgba(231,76,60,0.3); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 12px; font-size: 12px; color: var(--red); }
+.deadline-banner--warning { background: rgba(201,162,39,0.08); border-color: var(--border-strong); color: var(--gold); }
+
+@media (max-width: 480px) { .info-pills { flex-direction: column; } }

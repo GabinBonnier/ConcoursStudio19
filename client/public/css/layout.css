@@ -1,0 +1,29 @@
+.view { display: none; min-height: 100vh; flex-direction: column; }
+.view--active { display: flex; }
+
+.topbar { display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 20px; background: var(--bg-card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; flex-shrink: 0; }
+.topbar__logo { cursor: pointer; display: flex; align-items: center; }
+.topbar__logo img { height: 22px; }
+.topbar__right { display: flex; align-items: center; gap: 12px; }
+
+.admin-nav { display: flex; align-items: center; gap: 24px; }
+.admin-nav__item { font-family: var(--font-display); font-size: 10px; letter-spacing: 1.5px; color: var(--text-muted); cursor: pointer; padding: 6px 0; border-bottom: 2px solid transparent; transition: color var(--transition), border-color var(--transition); text-transform: uppercase; position: relative; }
+.admin-nav__item--active, .admin-nav__item:hover { color: var(--gold); border-bottom-color: var(--gold); }
+.admin-nav__badge { position: absolute; top: -4px; right: -10px; width: 16px; height: 16px; background: var(--gold); color: #1a1a1a; border-radius: 50%; font-size: 9px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+.main { flex: 1; padding: 28px 20px 80px; max-width: 620px; margin: 0 auto; width: 100%; }
+
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); margin-bottom: 20px; flex-wrap: wrap; }
+.breadcrumb__link { color: var(--gold); cursor: pointer; transition: opacity var(--transition); }
+.breadcrumb__link:hover { opacity: 0.75; }
+.breadcrumb__sep { color: var(--text-dim); }
+
+.page-title { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.page-subtitle { font-size: 13px; color: var(--gold); margin-bottom: 24px; }
+.page-subtitle--muted { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+.section-label { font-family: var(--font-display); font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin: 24px 0 12px; }
+
+@media (max-width: 480px) {
+  .admin-nav { gap: 14px; }
+  .main { padding: 20px 16px 80px; }
+}

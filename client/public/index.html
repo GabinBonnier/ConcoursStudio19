@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio 19</title>
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/components.css" />
+  <link rel="stylesheet" href="/css/views.css" />
+</head>
+<body>
+
+  <div id="view-login" class="view view--active">
+    <div class="login-wrapper">
+      <div class="login-card">
+        <div class="login-logo">
+          <img class="login-logo__star" src="/assets/logo/logo.png" alt="Studio 19" />
+        </div>
+        <div class="login-body">
+          <h1 class="login-title">Connexion à votre espace</h1>
+          <div class="field">
+            <label class="field__label">Identifiant *</label>
+            <input id="login-email" type="text" class="field__input" placeholder="Identifiant" />
+          </div>
+          <div class="field">
+            <label class="field__label">Mot de passe *</label>
+            <input id="login-password" type="password" class="field__input" placeholder="••••••••" onkeydown="if(event.key==='Enter') App.login()" />
+          </div>
+          <button id="login-btn" class="btn btn--primary btn--block" onclick="App.login()">Se connecter</button>
+          <div class="login-hint">Identifiants reçus par mail · Contactez l'administrateur en cas de problème</div>
+          <p class="required-note">Tous les champs (*) sont obligatoires</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-admin-associations" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div style="display:flex;align-items:center;gap:20px">
+        <nav class="admin-nav">
+          <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs<span id="notif-badge" class="admin-nav__badge" style="display:none">0</span></span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span id="nav-admins" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+        </nav>
+        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <h1 class="page-title">Associations</h1>
+      <span id="admin-assoc-count" class="badge badge--count">—</span>
+      <p class="section-label">Toutes les associations</p>
+      <input type="text" id="admin-assoc-search" class="search-input" placeholder="Rechercher une association..." oninput="App.filterAdminAssociations()" />
+      <div id="admin-assoc-list"><div class="spinner"></div></div>
+    </main>
+  </div>
+
+  <div id="view-admin-creer" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div style="display:flex;align-items:center;gap:20px">
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span id="nav-admins" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+        </nav>
+        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <h1 class="page-title">Nouvel espace</h1>
+      <p class="page-subtitle--muted">Créer l'accès à une association</p>
+      <form id="form-create-assoc" onsubmit="event.preventDefault(); App.createAssociation()">
+        <p class="section-label">Informations association</p>
+        <div class="field"><label class="field__label">Nom de l'association *</label><input id="new-assoc-nom" type="text" class="field__input" placeholder="Ex : Studio 19" required /></div>
+        <div class="field-row">
+          <div class="field field--half"><label class="field__label">Prénom responsable *</label><input id="new-assoc-prenom" type="text" class="field__input" placeholder="Prénom" required /></div>
+          <div class="field field--half"><label class="field__label">Nom responsable *</label><input id="new-assoc-nom-resp" type="text" class="field__input" placeholder="Nom" required /></div>
+        </div>
+        <div class="field"><label class="field__label">Email responsable *</label><input id="new-assoc-email" type="email" class="field__input" placeholder="email@association.com" required /></div>
+        <div class="field">
+          <label class="field__label">Quota de groupes autorisés *</label>
+          <div class="quota-stepper">
+            <span class="quota-stepper__label">Groupes max</span>
+            <div class="quota-stepper__controls">
+              <button type="button" class="quota-stepper__btn" onclick="App.adjustQuota('new-assoc-quota-val',-1)">−</button>
+              <span id="new-assoc-quota-val" class="quota-stepper__value">3</span>
+              <button type="button" class="quota-stepper__btn" onclick="App.adjustQuota('new-assoc-quota-val',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <button id="create-assoc-btn" type="submit" class="btn btn--primary btn--block">Créer l'espace · Envoyer les identifiants</button>
+        <p class="field__hint field__hint--center">Un email avec l'identifiant et le mot de passe sera envoyé automatiquement au responsable</p>
+        <p class="required-note">Tous les champs (*) sont obligatoires</p>
+      </form>
+    </main>
+  </div>
+
+  <div id="view-admin-assoc-detail" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div style="display:flex;align-items:center;gap:20px">
+        <nav class="admin-nav">
+          <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span id="nav-admins-creer" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+        </nav>
+        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <nav class="breadcrumb">
+        <span class="breadcrumb__link" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+        <span class="breadcrumb__sep">›</span>
+        <strong id="admin-assoc-detail-title">—</strong>
+      </nav>
+      <div class="group-detail-header">
+        <span class="avatar avatar--lg">AS</span>
+        <div class="group-detail-header__info">
+          <h1 class="group-detail-header__name" id="admin-assoc-detail-title2"></h1>
+          <p class="group-detail-header__meta" id="admin-assoc-detail-meta"></p>
+          <p class="group-detail-header__meta gold" id="admin-assoc-detail-quota" style="margin-top:4px"></p>
+        </div>
+        <button class="btn btn--outline btn--sm" onclick="App.openAdminEdit()">Modifier</button>
+      </div>
+      <div id="admin-assoc-detail-pills" class="info-pills"></div>
+      <div id="admin-assoc-detail-content"></div>
+      <p class="section-label">Groupes</p>
+      <div id="admin-assoc-groupe-list"><div class="spinner"></div></div>
+    </main>
+  </div>
+
+  <div id="view-admin-edit-assoc" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div style="display:flex;align-items:center;gap:20px">
+        <nav class="admin-nav">
+          <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span id="nav-admins-edit" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+
+        </nav>
+        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <nav class="breadcrumb">
+        <span class="breadcrumb__link" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+        <span class="breadcrumb__sep">›</span>
+        <strong>Modifier</strong>
+      </nav>
+      <div class="edit-card">
+        <h1 class="edit-card__title"><span class="edit-card__accent">|</span> Modifier l'association</h1>
+        <div class="field"><label class="field__label">Nom de l'association</label><input id="edit-assoc-nom" type="text" class="field__input" /></div>
+        <div class="field-row">
+          <div class="field field--half"><label class="field__label">Prénom</label><input id="edit-assoc-prenom" type="text" class="field__input" /></div>
+          <div class="field field--half"><label class="field__label">Nom</label><input id="edit-assoc-nom-resp" type="text" class="field__input" /></div>
+        </div>
+        <div class="field"><label class="field__label">Email</label><input id="edit-assoc-email" type="email" class="field__input" /></div>
+        <div class="field">
+          <label class="field__label">Quota de groupes</label>
+          <div class="quota-stepper">
+            <span class="quota-stepper__label">Groupes max</span>
+            <div class="quota-stepper__controls">
+              <button type="button" class="quota-stepper__btn" onclick="App.adjustQuota('edit-assoc-quota-val',-1)">−</button>
+              <span id="edit-assoc-quota-val" class="quota-stepper__value">3</span>
+              <button type="button" class="quota-stepper__btn" onclick="App.adjustQuota('edit-assoc-quota-val',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <button id="save-assoc-btn" class="btn btn--primary btn--block" onclick="App.saveAdminEdit()">Enregistrer les modifications</button>
+        <p class="section-label" style="margin-top:28px">Accès et identifiants</p>
+        <div class="resend-box">
+          <div class="resend-box__title">Renvoyer les identifiants</div>
+          <p class="resend-box__desc">Un email avec l'identifiant et un nouveau mot de passe sera envoyé au responsable.</p>
+          <button id="resend-btn" class="btn btn--outline" onclick="App.resendCredentials()">Envoyer</button>
+        </div>
+        <p class="section-label" style="margin-top:28px">Zone dangereuse</p>
+        <button class="btn btn--danger btn--block" onclick="App.deleteCurrentAssociation()">Supprimer cette association</button>
+      </div>
+    </main>
+  </div>
+
+  <div id="view-admin-groupe-detail" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div style="display:flex;align-items:center;gap:20px">
+        <nav class="admin-nav">
+          <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" id="nav-admins">Admins</span>
+        </nav>
+        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <nav class="breadcrumb">
+        <span class="breadcrumb__link" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+        <span class="breadcrumb__sep">›</span>
+        <span class="breadcrumb__link" onclick="Router.show('view-admin-assoc-detail')">Association</span>
+        <span class="breadcrumb__sep">›</span>
+        <strong id="admin-groupe-name">—</strong>
+      </nav>
+      <div id="admin-groupe-content"></div>
+      <div class="group-detail-header">
+        <span class="avatar avatar--lg">GR</span>
+        <h1 class="group-detail-header__name" id="admin-groupe-name2"></h1>
+        <div class="group-detail-header__info">
+          <p class="group-detail-header__meta" id="admin-groupe-meta"></p>
+          <p class="group-detail-header__meta" style="margin-top:6px">
+  🎨 Couleur : <span id="admin-groupe-couleur" style="color:var(--gold)">—</span>
+</p>
+        </div>
+        <span id="admin-groupe-statut" class="badge"></span>
+      </div>
+      <p class="section-label">Historique des dépôts</p>
+      <div id="admin-groupe-history" class="history-list"></div>
+    </main>
+  </div>
+
+  <div id="view-admin-notifs" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div style="display:flex;align-items:center;gap:20px">
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span id="nav-admins" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+        </nav>
+        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <h1 class="page-title">Notifications</h1>
+        <button class="btn btn--ghost btn--sm" onclick="App.markAllNotifsRead()">Tout marquer lu</button>
+      </div>
+      <span id="admin-notif-count" class="badge badge--count">—</span>
+      <p class="section-label">Récentes</p>
+      <div id="admin-notif-list"><div class="spinner"></div></div>
+    </main>
+  </div>
+
+  <div id="view-mes-groupes" class="view">
+    <header class="topbar">
+      <div class="topbar__logo"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div class="topbar__right">
+  <nav class="admin-nav">
+    <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
+  </nav>
+  <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+    <span class="avatar avatar--sm avatar--gold">S19</span>
+    <span>Mon compte</span>
+    <span class="status-dot status-dot--green"></span>
+  </button>
+</div>
+    </header>
+    <main class="main">
+      <h1 class="page-title">Mes groupes</h1>
+      <p id="assoc-nom" class="page-subtitle"></p>
+      <div class="quota-bar">
+        <span class="quota-bar__label">Quota utilisé</span>
+        <span id="assoc-quota-bar" class="quota-bar__value">—</span>
+      </div>
+      <p class="section-label">Groupes inscrits</p>
+      <div id="mes-groupes-list"></div>
+      <button class="btn btn--outline btn--block" style="margin-top:12px" onclick="Router.show('view-nouveau-groupe')">+ Créer un nouveau groupe</button>
+    </main>
+  </div>
+
+  <div id="view-mon-compte" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div class="topbar__right">
+  <nav class="admin-nav">
+    <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
+  </nav>
+  <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+    <span class="avatar avatar--sm avatar--gold">S19</span>
+    <span>Mon compte</span>
+    <span class="status-dot status-dot--green"></span>
+  </button>
+</div>
+    </header>
+    <main class="main">
+      <div class="account-hero">
+        <div id="compte-nom" class="account-hero__name"></div>
+        <div id="compte-prenom" class="account-hero__email" style="margin-top:2px"></div>
+        <div id="compte-email" class="account-hero__email"></div>
+        <div id="compte-quota" class="account-hero__quota"></div>
+      </div>
+      <p class="section-label">Mes groupes</p>
+      <div id="compte-groupe-list" class="group-list"></div>
+      <button class="btn btn--danger btn--block" style="margin-top:16px" onclick="App.logout()">Déconnexion</button>
+    </main>
+  </div>
+
+  <div id="view-nouveau-groupe" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div class="topbar__right">
+        <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+          <span class="avatar avatar--sm avatar--gold">S19</span>
+          <span>Mon compte</span>
+          <span class="status-dot status-dot--green"></span>
+        </button>
+      </div>
+    </header>
+    <main class="main">
+      <nav class="breadcrumb">
+        <span class="breadcrumb__link" onclick="Router.show('view-mes-groupes')">Mes groupes</span>
+        <span class="breadcrumb__sep">›</span>
+        <strong>Nouveau groupe</strong>
+      </nav>
+      <h1 class="page-title">Nouveau groupe</h1>
+      <p id="assoc-quota" class="page-subtitle--muted"></p>
+      <form id="form-create-groupe" onsubmit="event.preventDefault(); App.createGroupe()">
+        <div class="field"><label class="field__label">Nom du groupe *</label><input id="new-groupe-nom" type="text" class="field__input" placeholder="Ex : Épilogue" required /></div>
+        <div class="field">
+          <label class="field__label">Catégorie *</label>
+          <select id="new-groupe-categorie" class="field__select" required>
+            <option value="" disabled selected>Choisir une catégorie...</option>
+            <option>Jazz Ados</option><option>Jazz Enfants</option><option>Jazz Adultes</option>
+            <option>Contemporain</option><option>Hip-Hop</option><option>Classique</option><option>Autre</option>
+          </select>
+        </div>
+        <div class="field">
+            <label class="field__label">Couleur de la danse</label>
+            <input id="new-groupe-couleur" type="text" class="field__input" placeholder="Ex : rouge, bleu, vert..." />
+            <p class="field__hint">Optionnel</p>
+        </div>
+        <div class="field">
+          <label class="field__label">Musique (MP3 ou MP4)</label>
+          <div id="new-groupe-dropzone" class="dropzone dropzone--lg">
+            <div class="dropzone__icon">🎵</div>
+            <div class="dropzone__text">Glissez votre fichier ici ou cliquez pour choisir</div>
+            <div class="dropzone__hint dropzone__hint--gold">MP3 · MP4 · Max 500 Mo</div>
+          </div>
+          <p class="field__hint">Optionnel · Vous pourrez déposer la musique plus tard</p>
+        </div>
+        <button id="btn-create-groupe" type="submit" class="btn btn--primary btn--block">Créer et publier</button>
+        <p class="required-note">Tous les champs (*) sont obligatoires</p>
+      </form>
+    </main>
+  </div>
+
+  <div id="view-groupe-detail" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div class="topbar__right">
+        <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+          <span class="avatar avatar--sm avatar--gold">S19</span>
+          <span>Mon compte</span>
+          <span class="status-dot status-dot--green"></span>
+        </button>
+      </div>
+    </header>
+    <main class="main">
+      <nav class="breadcrumb">
+        <span class="breadcrumb__link" onclick="Router.show('view-mes-groupes')">Mes groupes</span>
+        <span class="breadcrumb__sep">›</span>
+        <strong id="groupe-detail-name-bc">—</strong>
+      </nav>
+      <div id="groupe-detail-content"></div>
+      <div class="group-detail-header">
+        <span class="avatar avatar--lg">GR</span>
+        <div class="group-detail-header__info">
+          <h1 id="groupe-detail-name" class="group-detail-header__name"></h1>
+          <p id="groupe-detail-meta" class="group-detail-header__meta"></p>
+        </div>
+        <span id="groupe-detail-statut" class="badge"></span>
+      </div>
+      <button id="btn-edit-groupe" class="btn btn--outline btn--sm" style="margin-bottom:16px">Éditer ce groupe</button>
+      <div id="groupe-deadline-banner" class="deadline-banner" style="display:none"></div>
+      <div id="groupe-musique-section"></div>
+      <p class="section-label">Déposer / Remplacer la musique</p>
+      <div id="groupe-dropzone" class="dropzone">
+        <div class="dropzone__icon">🎵</div>
+        <div class="dropzone__text">Glissez ou cliquez pour choisir</div>
+        <div class="dropzone__hint dropzone__hint--gold">MP3 · MP4 · Max 500 Mo</div>
+      </div>
+      <button id="btn-upload-musique" class="btn btn--primary btn--block" style="margin-top:12px" onclick="App.uploadMusique()">Envoyer la musique</button>
+    </main>
+  </div>
+
+  <div id="view-editer-groupe" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div class="topbar__right">
+  <nav class="admin-nav">
+    <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
+  </nav>
+  <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+    <span class="avatar avatar--sm avatar--gold">S19</span>
+    <span>Mon compte</span>
+    <span class="status-dot status-dot--green"></span>
+  </button>
+</div>
+    </header>
+    <main class="main">
+      <div class="edit-card">
+        <h1 class="edit-card__title"><span class="edit-card__accent">|</span> Éditer le groupe</h1>
+        <div class="field"><label class="field__label">Nom du groupe</label><input id="edit-groupe-nom" type="text" class="field__input" /></div>
+        <div class="field">
+          <label class="field__label">Catégorie</label>
+          <select id="edit-groupe-categorie" class="field__select">
+            <option>Jazz Ados</option><option>Jazz Enfants</option><option>Jazz Adultes</option>
+            <option>Contemporain</option><option>Hip-Hop</option><option>Classique</option><option>Autre</option>
+          </select>
+        </div>
+<div class="field">
+  <label class="field__label">Couleur de la danse</label>
+  <input id="edit-groupe-couleur" type="text" class="field__input" placeholder="Ex : rouge, bleu, vert..." />
+</div>        <div class="field">
+          <label class="field__label">Remplacer la musique</label>
+          <div id="edit-dropzone" class="dropzone">
+            <div class="dropzone__icon">↺</div>
+            <div class="dropzone__text">Nouveau fichier MP3 / MP4</div>
+            <div class="dropzone__hint dropzone__hint--gold">Optionnel</div>
+          </div>
+        </div>
+        <div class="edit-card__actions">
+          <button class="btn btn--ghost" onclick="Router.show('view-groupe-detail')">Annuler</button>
+          <button id="btn-save-groupe" class="btn btn--primary" style="flex:1" onclick="App.saveEditGroupe()">Enregistrer</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="view-admin-comptes" class="view">
+  <header class="topbar">
+    <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <nav class="admin-nav">
+        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs<span id="notif-badge2" class="admin-nav__badge" style="display:none">0</span></span>
+        <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+        <span id="nav-admins2" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+      </nav>
+      <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+    </div>
+  </header>
+  <main class="main">
+    <h1 class="page-title">Comptes</h1>
+    <span id="admin-comptes-count" class="badge badge--count">—</span>
+    <p class="section-label">Tous les comptes utilisateurs</p>
+    <div id="admin-comptes-list"><div class="spinner"></div></div>
+  </main>
+</div>
+<div id="view-change-password" class="view">
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-logo">
+        <img class="login-logo__star" src="/assets/logo/logo.png" alt="Studio 19" />
+      </div>
+      <div class="login-body">
+        <h1 class="login-title">Choisissez votre mot de passe</h1>
+        <p class="login-hint" style="margin-bottom:16px">C'est votre première connexion · Définissez un mot de passe personnel</p>
+        <div class="field">
+          <label class="field__label">Nouveau mot de passe *</label>
+          <input id="new-password" type="password" class="field__input" placeholder="••••••••" />
+        </div>
+        <div class="field">
+          <label class="field__label">Confirmer le mot de passe *</label>
+          <input id="confirm-password" type="password" class="field__input" placeholder="••••••••" onkeydown="if(event.key==='Enter') App.submitChangePassword()" />
+        </div>
+        <button id="change-password-btn" class="btn btn--primary btn--block" onclick="App.submitChangePassword()">Confirmer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="view-admin-admins" class="view">
+  <header class="topbar">
+    <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+    <div style="display:flex;align-items:center;gap:20px">
+      <nav class="admin-nav">
+        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+        <span class="admin-nav__item admin-nav__item--active">Admins</span>
+      </nav>
+      <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+    </div>
+  </header>
+  <main class="main">
+    <h1 class="page-title">Administrateurs</h1>
+    <p class="page-subtitle--muted">Seul le Super Admin peut gérer les comptes administrateurs</p>
+    <p class="section-label">Créer un admin</p>
+    <div class="edit-card" style="margin-bottom:24px">
+      <div class="field"><label class="field__label">Identifiant *</label><input id="new-admin-username" type="text" class="field__input" placeholder="Ex : DelphineAdmin" /></div>
+      <div class="field"><label class="field__label">Email *</label><input id="new-admin-email" type="email" class="field__input" placeholder="email@studio19.com" /></div>
+      <button id="create-admin-btn" class="btn btn--primary btn--block" onclick="App.createAdmin()">Créer le compte · Envoyer les identifiants</button>
+      <p class="field__hint field__hint--center">Un email avec les identifiants sera envoyé automatiquement</p>
+    </div>
+    <p class="section-label">Comptes administrateurs</p>
+    <div id="admin-admins-list"><div class="spinner"></div></div>
+  </main>
+</div>
+
+
+
+
+
+  <script src="/js/router.js"></script>
+  <script src="/js/toast.js"></script>
+  <script src="/js/dropzone.js"></script>
+  <script src="/js/helpers.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/app.js"></script>
+
+
+
+
+
+</body>
+</html>

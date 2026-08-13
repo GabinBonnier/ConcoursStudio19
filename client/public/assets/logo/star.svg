@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8c96a"/>
+      <stop offset="50%" stop-color="#c9a227"/>
+      <stop offset="100%" stop-color="#a07c10"/>
+    </linearGradient>
+  </defs>
+  <polygon points="100,10 122,70 190,70 136,114 158,182 100,140 42,182 64,114 10,70 78,70" fill="url(#g)" filter="drop-shadow(0 0 14px rgba(201,162,39,0.5))"/>
+  <text x="100" y="104" text-anchor="middle" font-family="Georgia,serif" font-size="26" font-weight="bold" fill="#1a1a1a" letter-spacing="1">STUDIO<tspan font-weight="300" font-size="22">19</tspan></text>
+  <text x="100" y="122" text-anchor="middle" font-family="Georgia,serif" font-size="10" fill="#e85cb0" letter-spacing="1" font-style="italic">By Dolph'in dance</text>
+</svg>

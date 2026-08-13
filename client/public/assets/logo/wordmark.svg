@@ -1,0 +1,9 @@
+<svg viewBox="0 0 170 30" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="wg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e8c96a"/>
+      <stop offset="100%" stop-color="#c9a227"/>
+    </linearGradient>
+  </defs>
+  <text y="24" font-family="Georgia,serif" font-size="24" font-weight="bold" fill="url(#wg)" letter-spacing="1">STUDIO<tspan font-weight="300" font-size="20" fill="#c9a227">19</tspan></text>
+</svg>
