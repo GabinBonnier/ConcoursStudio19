@@ -1,0 +1,125 @@
+@media (max-width: 768px) {
+  .topbar {
+    padding: 0 14px;
+    height: 52px;
+    gap: 10px;
+  }
+
+  .topbar__logo img { height: 18px; }
+
+  .admin-nav {
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .admin-nav::-webkit-scrollbar { display: none; }
+  .admin-nav__item { white-space: nowrap; flex-shrink: 0; }
+
+  .main { padding: 20px 14px 80px; }
+
+  .page-title { font-size: 20px; }
+
+  .group-detail-header { flex-wrap: wrap; gap: 12px; }
+
+  .info-pills { flex-direction: column; }
+
+  .field-row { flex-direction: column; }
+  .field--half { width: 100%; }
+
+  .edit-card { padding: 20px 16px; }
+  .edit-card__title { font-size: 18px; }
+
+  .history-item { flex-wrap: wrap; gap: 8px; }
+
+  .group-card { gap: 10px; padding: 12px; }
+
+  .music-file { flex-wrap: wrap; gap: 8px; }
+  .music-file__name { min-width: 0; }
+
+  .assoc-card { gap: 10px; padding: 12px; }
+
+  .login-logo__star { width: 200px; }
+  .login-body { padding: 24px 20px 20px; }
+  .login-card { border-radius: var(--radius); }
+
+  .quota-stepper { flex-wrap: wrap; gap: 12px; }
+
+  .notif-card { gap: 10px; padding: 14px; }
+
+  .btn--block { font-size: 10px; padding: 13px 16px; }
+}
+
+@media (max-width: 480px) {
+  .topbar { padding: 0 10px; height: 50px; }
+  .topbar__logo img { height: 16px; }
+
+  .admin-nav { gap: 10px; }
+  .admin-nav__item { font-size: 9px; letter-spacing: 1px; }
+
+  .btn--danger.btn--sm {
+    font-size: 9px;
+    padding: 8px 10px;
+    letter-spacing: 1px;
+  }
+
+  .main { padding: 14px 10px 80px; }
+
+  .page-title { font-size: 18px; }
+  .section-label { font-size: 9px; }
+
+  .avatar--lg { width: 40px; height: 40px; font-size: 12px; }
+  .avatar--md { width: 32px; height: 32px; font-size: 10px; }
+
+  .group-card { padding: 10px 12px; }
+  .group-card__name { font-size: 13px; }
+  .group-card__status { font-size: 10px; }
+
+  .assoc-card { padding: 10px 12px; }
+  .assoc-card__name { font-size: 13px; }
+
+  .edit-card { padding: 16px 12px; }
+  .edit-card__title { font-size: 16px; }
+  .edit-card__actions { flex-direction: column; }
+
+  .login-logo { padding: 28px 16px 24px; }
+  .login-logo__star { width: 160px; }
+  .login-body { padding: 20px 16px 16px; }
+  .login-title { font-size: 14px; }
+
+  .info-pill { padding: 8px 12px; }
+
+  .history-item { padding: 10px 12px; }
+  .history-item__type { font-size: 9px; }
+
+  .notif-card { padding: 12px; }
+  .notif-card__text { font-size: 12px; }
+
+  .dropzone { padding: 24px 12px; }
+  .dropzone--lg { padding: 36px 12px; }
+  .dropzone__text { font-size: 13px; }
+
+  .quota-stepper { padding: 12px; }
+
+  .resend-box { padding: 14px; }
+
+  .badge { padding: 4px 10px; font-size: 9px; }
+
+  .breadcrumb { font-size: 11px; gap: 4px; }
+
+  .music-file { padding: 10px 12px; }
+  .music-file__name { font-size: 12px; }
+
+  .account-hero { padding: 16px; }
+  .account-hero__name { font-size: 17px; }
+
+  .search-input { padding: 10px 12px; font-size: 12px; }
+
+  .field__input, .field__select { padding: 11px 12px; font-size: 13px; }
+  .field__label { font-size: 9px; }
+
+  .btn { padding: 12px 16px; font-size: 10px; letter-spacing: 1.5px; }
+  .btn--sm { padding: 8px 12px; font-size: 9px; }
+}
+
+/* Responsive OK */
