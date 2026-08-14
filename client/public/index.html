@@ -12,6 +12,7 @@
 </head>
 <body>
 
+  <!-- VUE : CONNEXION -->
   <div id="view-login" class="view view--active">
     <div class="login-wrapper">
       <div class="login-card">
@@ -36,10 +37,16 @@
     </div>
   </div>
 
+  <!-- VUE : ADMIN ASSOCIATIONS -->
   <div id="view-admin-associations" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-      <div style="display:flex;align-items:center;gap:20px">
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
         <nav class="admin-nav">
           <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
@@ -47,7 +54,7 @@
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
           <span id="nav-admins" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
         </nav>
-        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
       </div>
     </header>
     <main class="main">
@@ -59,18 +66,24 @@
     </main>
   </div>
 
+  <!-- VUE : ADMIN CRÉER -->
   <div id="view-admin-creer" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-      <div style="display:flex;align-items:center;gap:20px">
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
         <nav class="admin-nav">
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
           <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
-          <span id="nav-admins" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+          <span id="nav-admins-creer-bar" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
         </nav>
-        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
       </div>
     </header>
     <main class="main">
@@ -102,10 +115,16 @@
     </main>
   </div>
 
+  <!-- VUE : ADMIN DÉTAIL ASSOC -->
   <div id="view-admin-assoc-detail" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-      <div style="display:flex;align-items:center;gap:20px">
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
         <nav class="admin-nav">
           <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
@@ -113,7 +132,7 @@
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
           <span id="nav-admins-creer" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
         </nav>
-        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
       </div>
     </header>
     <main class="main">
@@ -138,19 +157,24 @@
     </main>
   </div>
 
+  <!-- VUE : ADMIN ÉDITER ASSOC -->
   <div id="view-admin-edit-assoc" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-      <div style="display:flex;align-items:center;gap:20px">
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
         <nav class="admin-nav">
           <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
           <span id="nav-admins-edit" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
-
         </nav>
-        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
       </div>
     </header>
     <main class="main">
@@ -191,18 +215,24 @@
     </main>
   </div>
 
+  <!-- VUE : ADMIN GROUPE DÉTAIL -->
   <div id="view-admin-groupe-detail" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-      <div style="display:flex;align-items:center;gap:20px">
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
         <nav class="admin-nav">
           <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
-          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" id="nav-admins">Admins</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" id="nav-admins-detail">Admins</span>
         </nav>
-        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
       </div>
     </header>
     <main class="main">
@@ -220,8 +250,8 @@
         <div class="group-detail-header__info">
           <p class="group-detail-header__meta" id="admin-groupe-meta"></p>
           <p class="group-detail-header__meta" style="margin-top:6px">
-  🎨 Couleur : <span id="admin-groupe-couleur" style="color:var(--gold)">—</span>
-</p>
+            🎨 Couleur : <span id="admin-groupe-couleur" style="color:var(--gold)">—</span>
+          </p>
         </div>
         <span id="admin-groupe-statut" class="badge"></span>
       </div>
@@ -230,18 +260,24 @@
     </main>
   </div>
 
+  <!-- VUE : ADMIN NOTIFICATIONS -->
   <div id="view-admin-notifs" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-      <div style="display:flex;align-items:center;gap:20px">
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
         <nav class="admin-nav">
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
           <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
-          <span id="nav-admins" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+          <span id="nav-admins-notifs" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
         </nav>
-        <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
       </div>
     </header>
     <main class="main">
@@ -255,19 +291,83 @@
     </main>
   </div>
 
+  <!-- VUE : ADMIN COMPTES -->
+  <div id="view-admin-comptes" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs<span id="notif-badge2" class="admin-nav__badge" style="display:none">0</span></span>
+          <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span id="nav-admins2" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+        </nav>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <h1 class="page-title">Comptes</h1>
+      <span id="admin-comptes-count" class="badge badge--count">—</span>
+      <p class="section-label">Tous les comptes utilisateurs</p>
+      <div id="admin-comptes-list"><div class="spinner"></div></div>
+    </main>
+  </div>
+
+  <!-- VUE : ADMIN GESTION DES ADMINS -->
+  <div id="view-admin-admins" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <button class="burger-btn" aria-label="Menu" onclick="App.toggleMobileMenu(this)">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+      <div class="topbar__right topbar__menu-container">
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span class="admin-nav__item admin-nav__item--active">Admins</span>
+        </nav>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <h1 class="page-title">Administrateurs</h1>
+      <p class="page-subtitle--muted">Seul le Super Admin peut gérer les comptes administrateurs</p>
+      <p class="section-label">Créer un admin</p>
+      <div class="edit-card" style="margin-bottom:24px">
+        <div class="field"><label class="field__label">Identifiant *</label><input id="new-admin-username" type="text" class="field__input" placeholder="Ex : DelphineAdmin" /></div>
+        <div class="field"><label class="field__label">Email *</label><input id="new-admin-email" type="email" class="field__input" placeholder="email@studio19.com" /></div>
+        <button id="create-admin-btn" class="btn btn--primary btn--block" onclick="App.createAdmin()">Créer le compte · Envoyer les identifiants</button>
+        <p class="field__hint field__hint--center">Un email avec les identifiants sera envoyé automatiquement</p>
+      </div>
+      <p class="section-label">Comptes administrateurs</p>
+      <div id="admin-admins-list"><div class="spinner"></div></div>
+    </main>
+  </div>
+
+  <!-- VUE : ESPACE ASSOC - MES GROUPES -->
   <div id="view-mes-groupes" class="view">
     <header class="topbar">
       <div class="topbar__logo"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
       <div class="topbar__right">
-  <nav class="admin-nav">
-    <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
-  </nav>
-  <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
-    <span class="avatar avatar--sm avatar--gold">S19</span>
-    <span>Mon compte</span>
-    <span class="status-dot status-dot--green"></span>
-  </button>
-</div>
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
+        </nav>
+        <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+          <span class="avatar avatar--sm avatar--gold">S19</span>
+          <span>Mon compte</span>
+          <span class="status-dot status-dot--green"></span>
+        </button>
+      </div>
     </header>
     <main class="main">
       <h1 class="page-title">Mes groupes</h1>
@@ -282,19 +382,20 @@
     </main>
   </div>
 
+  <!-- VUE : ESPACE ASSOC - MON COMPTE -->
   <div id="view-mon-compte" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
       <div class="topbar__right">
-  <nav class="admin-nav">
-    <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
-  </nav>
-  <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
-    <span class="avatar avatar--sm avatar--gold">S19</span>
-    <span>Mon compte</span>
-    <span class="status-dot status-dot--green"></span>
-  </button>
-</div>
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
+        </nav>
+        <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+          <span class="avatar avatar--sm avatar--gold">S19</span>
+          <span>Mon compte</span>
+          <span class="status-dot status-dot--green"></span>
+        </button>
+      </div>
     </header>
     <main class="main">
       <div class="account-hero">
@@ -309,6 +410,7 @@
     </main>
   </div>
 
+  <!-- VUE : ESPACE ASSOC - NOUVEAU GROUPE -->
   <div id="view-nouveau-groupe" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
@@ -358,6 +460,7 @@
     </main>
   </div>
 
+  <!-- VUE : ESPACE ASSOC - DÉTAIL GROUPE -->
   <div id="view-groupe-detail" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
@@ -397,19 +500,20 @@
     </main>
   </div>
 
+  <!-- VUE : ESPACE ASSOC - ÉDITER GROUPE -->
   <div id="view-editer-groupe" class="view">
     <header class="topbar">
       <div class="topbar__logo" onclick="Router.show('view-mes-groupes')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
       <div class="topbar__right">
-  <nav class="admin-nav">
-    <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
-  </nav>
-  <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
-    <span class="avatar avatar--sm avatar--gold">S19</span>
-    <span>Mon compte</span>
-    <span class="status-dot status-dot--green"></span>
-  </button>
-</div>
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="Router.show('view-mes-groupes')">Accueil</span>
+        </nav>
+        <button class="avatar-btn" onclick="App.renderMonCompte(); Router.show('view-mon-compte')">
+          <span class="avatar avatar--sm avatar--gold">S19</span>
+          <span>Mon compte</span>
+          <span class="status-dot status-dot--green"></span>
+        </button>
+      </div>
     </header>
     <main class="main">
       <div class="edit-card">
@@ -422,10 +526,11 @@
             <option>Contemporain</option><option>Hip-Hop</option><option>Classique</option><option>Autre</option>
           </select>
         </div>
-<div class="field">
-  <label class="field__label">Couleur de la danse</label>
-  <input id="edit-groupe-couleur" type="text" class="field__input" placeholder="Ex : rouge, bleu, vert..." />
-</div>        <div class="field">
+        <div class="field">
+          <label class="field__label">Couleur de la danse</label>
+          <input id="edit-groupe-couleur" type="text" class="field__input" placeholder="Ex : rouge, bleu, vert..." />
+        </div>
+        <div class="field">
           <label class="field__label">Remplacer la musique</label>
           <div id="edit-dropzone" class="dropzone">
             <div class="dropzone__icon">↺</div>
@@ -441,93 +546,36 @@
     </main>
   </div>
 
-  <div id="view-admin-comptes" class="view">
-  <header class="topbar">
-    <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-    <div style="display:flex;align-items:center;gap:20px">
-      <nav class="admin-nav">
-        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
-        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
-        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs<span id="notif-badge2" class="admin-nav__badge" style="display:none">0</span></span>
-        <span class="admin-nav__item admin-nav__item--active" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
-        <span id="nav-admins2" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
-      </nav>
-      <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
-    </div>
-  </header>
-  <main class="main">
-    <h1 class="page-title">Comptes</h1>
-    <span id="admin-comptes-count" class="badge badge--count">—</span>
-    <p class="section-label">Tous les comptes utilisateurs</p>
-    <div id="admin-comptes-list"><div class="spinner"></div></div>
-  </main>
-</div>
-<div id="view-change-password" class="view">
-  <div class="login-wrapper">
-    <div class="login-card">
-      <div class="login-logo">
-        <img class="login-logo__star" src="/assets/logo/logo.png" alt="Studio 19" />
-      </div>
-      <div class="login-body">
-        <h1 class="login-title">Choisissez votre mot de passe</h1>
-        <p class="login-hint" style="margin-bottom:16px">C'est votre première connexion · Définissez un mot de passe personnel</p>
-        <div class="field">
-          <label class="field__label">Nouveau mot de passe *</label>
-          <input id="new-password" type="password" class="field__input" placeholder="••••••••" />
+  <!-- VUE : CHANGEMENT MOT DE PASSE FORCÉ -->
+  <div id="view-change-password" class="view">
+    <div class="login-wrapper">
+      <div class="login-card">
+        <div class="login-logo">
+          <img class="login-logo__star" src="/assets/logo/logo.png" alt="Studio 19" />
         </div>
-        <div class="field">
-          <label class="field__label">Confirmer le mot de passe *</label>
-          <input id="confirm-password" type="password" class="field__input" placeholder="••••••••" onkeydown="if(event.key==='Enter') App.submitChangePassword()" />
+        <div class="login-body">
+          <h1 class="login-title">Choisissez votre mot de passe</h1>
+          <p class="login-hint" style="margin-bottom:16px">C'est votre première connexion · Définissez un mot de passe personnel</p>
+          <div class="field">
+            <label class="field__label">Nouveau mot de passe *</label>
+            <input id="new-password" type="password" class="field__input" placeholder="••••••••" />
+          </div>
+          <div class="field">
+            <label class="field__label">Confirmer le mot de passe *</label>
+            <input id="confirm-password" type="password" class="field__input" placeholder="••••••••" onkeydown="if(event.key==='Enter') App.submitChangePassword()" />
+          </div>
+          <button id="change-password-btn" class="btn btn--primary btn--block" onclick="App.submitChangePassword()">Confirmer</button>
         </div>
-        <button id="change-password-btn" class="btn btn--primary btn--block" onclick="App.submitChangePassword()">Confirmer</button>
       </div>
     </div>
   </div>
-</div>
 
-<div id="view-admin-admins" class="view">
-  <header class="topbar">
-    <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
-    <div style="display:flex;align-items:center;gap:20px">
-      <nav class="admin-nav">
-        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
-        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
-        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
-        <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
-        <span class="admin-nav__item admin-nav__item--active">Admins</span>
-      </nav>
-      <button class="btn btn--danger btn--sm" onclick="App.logout()">Déconnexion</button>
-    </div>
-  </header>
-  <main class="main">
-    <h1 class="page-title">Administrateurs</h1>
-    <p class="page-subtitle--muted">Seul le Super Admin peut gérer les comptes administrateurs</p>
-    <p class="section-label">Créer un admin</p>
-    <div class="edit-card" style="margin-bottom:24px">
-      <div class="field"><label class="field__label">Identifiant *</label><input id="new-admin-username" type="text" class="field__input" placeholder="Ex : DelphineAdmin" /></div>
-      <div class="field"><label class="field__label">Email *</label><input id="new-admin-email" type="email" class="field__input" placeholder="email@studio19.com" /></div>
-      <button id="create-admin-btn" class="btn btn--primary btn--block" onclick="App.createAdmin()">Créer le compte · Envoyer les identifiants</button>
-      <p class="field__hint field__hint--center">Un email avec les identifiants sera envoyé automatiquement</p>
-    </div>
-    <p class="section-label">Comptes administrateurs</p>
-    <div id="admin-admins-list"><div class="spinner"></div></div>
-  </main>
-</div>
-
-
-
-
-
+  <!-- SCRIPTS -->
   <script src="/js/router.js"></script>
   <script src="/js/toast.js"></script>
   <script src="/js/dropzone.js"></script>
   <script src="/js/helpers.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/app.js"></script>
-
-
-
-
-
 </body>
 </html>

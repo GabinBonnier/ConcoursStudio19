@@ -548,6 +548,7 @@ const App = (() => {
   }
 
   function goAdminNav(viewId) {
+    closeAllMobileMenus();
     if (viewId === "view-admin-associations") loadAdminAssociations();
     if (viewId === "view-admin-notifs") loadAdminNotifs();
     if (viewId === "view-admin-comptes") loadAdminComptes();
@@ -690,10 +691,33 @@ const App = (() => {
     }
   }
 
+  function toggleMobileMenu(btn) {
+    const topbar = btn.closest(".topbar");
+    const menu = topbar
+      ? topbar.querySelector(".topbar__menu-container")
+      : null;
+
+    if (btn && menu) {
+      btn.classList.toggle("is-active");
+      menu.classList.toggle("is-open");
+    }
+  }
+
+  function closeAllMobileMenus() {
+    document
+      .querySelectorAll(".burger-btn")
+      .forEach((b) => b.classList.remove("is-active"));
+    document
+      .querySelectorAll(".topbar__menu-container")
+      .forEach((m) => m.classList.remove("is-open"));
+  }
+
   return {
     init,
     login,
     logout,
+    toggleMobileMenu,
+    closeAllMobileMenus,
     loadAdminAssociations,
     filterAdminAssociations,
     goAdminAssociation,
