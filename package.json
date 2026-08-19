@@ -2,6 +2,9 @@
   "name": "studio19",
   "version": "1.0.0",
   "type": "commonjs",
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "nodemon server/index.js",
     "start": "prisma migrate deploy && prisma db seed && node server/index.js",
