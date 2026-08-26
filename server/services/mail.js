@@ -3,7 +3,7 @@ const { Resend } = require("resend");
 const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.MAIL_FROM;
 const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL;
-const siteUrl = process.env.APP_URL || "http://localhost:3000";
+const siteUrl = process.env.APP_URL || "https://studio19.onrender.com";
 
 async function sendCredentials({ to, nomAssociation, username, password }) {
   const { error } = await resend.emails.send({
@@ -23,6 +23,11 @@ async function sendCredentials({ to, nomAssociation, username, password }) {
         <div style="text-align:center;margin:24px 0">
           <a href="${siteUrl}" style="display:inline-block;padding:12px 28px;background:#c9a227;color:#1a1a1a;font-weight:bold;border-radius:6px;text-decoration:none;font-family:Georgia,serif;letter-spacing:1px">Se connecter à son espace</a>
         </div>
+
+        <div style="text-align:center;margin:24px 0">
+          <a href="mailto:bonnier.gabin@yahoo.com" style="display:inline-block;padding:12px 28px;background:#c9a227;color:#1a1a1a;font-weight:bold;border-radius:6px;text-decoration:none;font-family:Georgia,serif;letter-spacing:1px">Contacter l'administrateur.</a>
+        </div>
+
         <p style="color:#aaa;font-size:13px;margin-top:16px">Conservez ces informations précieusement. En cas de problème, contactez l'administrateur.</p>
       </div>
     `,
