@@ -1,3 +1,7 @@
 node_modules/
-.env
+.env/
+prisma/dev.db
+prisma/shema.prisma
+prisma/seed.js
+prisma/migrations/
 prisma/dev.db
