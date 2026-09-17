@@ -69,3 +69,11 @@ model Notification {
   associationId String?
   createdAt     DateTime @default(now())
 }
+
+model Faq {
+  id        Int      @id @default(autoincrement())
+  question  String
+  answer    String
+  keywords  String   // Mots-clés séparés par des virgules pour faciliter la recherche
+  createdAt DateTime @default(now())
+}

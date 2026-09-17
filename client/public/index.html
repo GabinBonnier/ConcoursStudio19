@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/css/components.css" />
   <link rel="stylesheet" href="/css/views.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
+  <link rel="stylesheet" href="/css/support.css" />
 </head>
 <body>
 
@@ -570,6 +571,35 @@
     </div>
   </div>
 
+
+  <!-- WIDGET SUPPORT FLOTTANT -->
+  <div id="support-widget">
+    <button id="support-toggle-btn" aria-label="Besoin d'aide ?">💬</button>
+
+    <div id="support-chat-window" class="hidden">
+      <div class="support-header">
+        <div>
+          <h4>Assistant Support</h4>
+          <span class="support-status">● En ligne</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <a href="mailto:bonnier.gabin@yahoo.com?subject=Demande%20de%20support%20Studio%2019" class="support-header-mail" title="Écrire directement par email" target="_blank">✉️ Contacter</a>
+          <button id="support-close-btn">&times;</button>
+        </div>
+      </div>
+
+      <div id="support-messages">
+        <div class="support-msg bot-msg">
+          Bonjour ! Posez votre question, je recherche la réponse immédiatement.
+        </div>
+      </div>
+
+      <form id="support-form">
+        <input type="text" id="support-input" placeholder="Posez une question..." required autocomplete="off" />
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+
   <!-- SCRIPTS -->
   <script src="/js/router.js"></script>
   <script src="/js/toast.js"></script>
@@ -577,5 +607,6 @@
   <script src="/js/helpers.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/app.js"></script>
+  <script src="/js/support.js"></script>
 </body>
 </html>

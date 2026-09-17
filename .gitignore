@@ -1,7 +1,5 @@
 node_modules/
 .env
 prisma/dev.db
-prisma/shema.prisma
-prisma/seed.js
-prisma/migrations/
-prisma/dev.db
+prisma/dev.db-journal
+.DS_Store
