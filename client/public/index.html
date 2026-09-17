@@ -54,6 +54,7 @@
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs<span id="notif-badge" class="admin-nav__badge" style="display:none">0</span></span>
           <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
           <span id="nav-admins" class="admin-nav__item" onclick="App.goAdminNav('view-admin-admins')" style="display:none">Admins</span>
+          <span id="nav-ia" class="admin-nav__item" onclick="App.goAdminNav('view-admin-ia')" style="display:none">Discussions IA</span>
         </nav>
         <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
       </div>
@@ -352,6 +353,30 @@
       </div>
       <p class="section-label">Comptes administrateurs</p>
       <div id="admin-admins-list"><div class="spinner"></div></div>
+    </main>
+  </div>
+
+  <!-- VUE : ADMIN HISTORIQUE IA -->
+  <div id="view-admin-ia" class="view">
+    <header class="topbar">
+      <div class="topbar__logo" onclick="App.goAdminNav('view-admin-associations')"><img src="/assets/logo/wordmark.svg" alt="Studio 19" /></div>
+      <div class="topbar__right topbar__menu-container">
+        <nav class="admin-nav">
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-associations')">Associations</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-creer')">Créer</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-notifs')">Notifs</span>
+          <span class="admin-nav__item" onclick="App.goAdminNav('view-admin-comptes')">Comptes</span>
+          <span class="admin-nav__item admin-nav__item--active">Discussions IA</span>
+        </nav>
+        <button class="btn btn--danger btn--sm btn--logout-top" onclick="App.logout()">Déconnexion</button>
+      </div>
+    </header>
+    <main class="main">
+      <h1 class="page-title">Discussions Support IA</h1>
+      <p class="page-subtitle--muted">Historique des échanges posés à l'assistant</p>
+      <div id="admin-ia-container" style="display: flex; gap: 20px; height: calc(100vh - 180px); margin-top: 16px;">
+        <div class="spinner"></div>
+      </div>
     </main>
   </div>
 

@@ -77,3 +77,19 @@ model Faq {
   keywords  String   // Mots-clés séparés par des virgules pour faciliter la recherche
   createdAt DateTime @default(now())
 }
+
+model SupportConversation {
+  id        String           @id @default(cuid())
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  messages  SupportMessage[]
+}
+
+model SupportMessage {
+  id             String              @id @default(cuid())
+  conversationId String
+  conversation   SupportConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String              // "user" ou "model"
+  text           String
+  createdAt      DateTime            @default(now())
+}

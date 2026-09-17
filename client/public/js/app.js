@@ -49,10 +49,13 @@ const App = (() => {
     await loadAdminAssociations();
     await loadAdminNotifsBadge();
     Router.show("view-admin-associations");
-    const isSuperAdmin = currentUser?.email === "Admin@admin.com";
-    document.querySelectorAll('[id^="nav-admins"]').forEach((el) => {
-      el.style.display = isSuperAdmin ? "inline-block" : "none";
-    });
+    const isSuperAdmin =
+      currentUser?.email?.toLowerCase() === "admin@admin.com";
+    document
+      .querySelectorAll('[id^="nav-admins"], [id^="nav-ia"]')
+      .forEach((el) => {
+        el.style.display = isSuperAdmin ? "inline-block" : "none";
+      });
   }
 
   async function loadAdminAssociations() {
@@ -553,6 +556,9 @@ const App = (() => {
     if (viewId === "view-admin-notifs") loadAdminNotifs();
     if (viewId === "view-admin-comptes") loadAdminComptes();
     if (viewId === "view-admin-admins") loadAdminAdmins();
+    if (viewId === "view-admin-ia") {
+      loadSupportHistory();
+    }
     Router.show(viewId);
   }
 
@@ -636,7 +642,7 @@ const App = (() => {
   }
 
   async function loadAdminAdmins() {
-    if (currentUser?.email !== "Admin@admin.com") return;
+    if (currentUser?.email?.toLowerCase() !== "admin@admin.com") return;
     const list = document.getElementById("admin-admins-list");
     list.innerHTML = '<div class="spinner"></div>';
     try {
@@ -650,7 +656,7 @@ const App = (() => {
           <div class="assoc-card__name">${a.username}</div>
           <div class="assoc-card__meta">${a.email} · créé le ${Helpers.formatDate(a.createdAt)}</div>
         </div>
-        ${a.email !== "Admin@admin.com" ? `<button class="btn btn--danger btn--sm" onclick="App.deleteAdmin('${a.id}', '${a.username}')">Supprimer</button>` : '<span class="badge badge--count">Super Admin</span>'}
+        ${a.email.toLowerCase() !== "admin@admin.com" ? `<button class="btn btn--danger btn--sm" onclick="App.deleteAdmin('${a.id}', '${a.username}')">Supprimer</button>` : '<span class="badge badge--count">Super Admin</span>'}
       </div>
     `,
         )
@@ -712,6 +718,74 @@ const App = (() => {
       .forEach((m) => m.classList.remove("is-open"));
   }
 
+  async function loadSupportHistory() {
+    const container = document.getElementById("admin-ia-container");
+    if (!container) return;
+    container.innerHTML = '<div class="spinner"></div>';
+
+    try {
+      const res = await fetch("/api/admin/support-history");
+      const { conversations } = await res.json();
+
+      if (!conversations || conversations.length === 0) {
+        container.innerHTML =
+          '<p style="color:#71717a">Aucun échange pour le moment.</p>';
+        return;
+      }
+
+      container.innerHTML = `
+        <div style="width:35%; overflow-y:auto; border-right:1px solid rgba(255,255,255,0.08); padding-right:12px; display:flex; flex-direction:column; gap:8px;">
+          ${conversations
+            .map((c) => {
+              const firstMsg =
+                c.messages.find((m) => m.role === "user")?.text ||
+                "Session vide";
+              const date = new Date(c.createdAt).toLocaleDateString("fr-FR", {
+                day: "2-digit",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+              return `
+              <div class="ia-item" data-id="${c.id}" style="padding:10px; background:#1c1c1f; border-radius:8px; cursor:pointer; border:1px solid rgba(255,255,255,0.05);">
+                <div style="font-size:11px; color:var(--gold, #d4af37);">${date} ·${c.messages.length} msg</div>
+                <div style="font-size:13px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${firstMsg}</div>
+              </div>
+            `;
+            })
+            .join("")}
+        </div>
+        <div id="ia-detail" style="flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:10px;">
+          <p style="color:#71717a; margin:auto;">Sélectionnez une discussion à gauche.</p>
+        </div>
+      `;
+
+      document.querySelectorAll(".ia-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          const conv = conversations.find((c) => c.id === item.dataset.id);
+          const detail = document.getElementById("ia-detail");
+          detail.innerHTML = conv.messages
+            .map(
+              (m) => `
+            <div style="max-width:85%; padding:10px 12px; border-radius:8px; font-size:13px; ${
+              m.role === "user"
+                ? "align-self:flex-end; background:var(--gold, #d4af37); color:#111;"
+                : "align-self:flex-start; background:#242427; color:#fff;"
+            }">
+              <small style="display:block; opacity:0.7; font-size:10px; margin-bottom:2px;">${m.role === "user" ? "Utilisateur" : "IA"}</small>
+              ${m.text.replace(/\n/g, "<br>")}
+            </div>
+          `,
+            )
+            .join("");
+        });
+      });
+    } catch (e) {
+      container.innerHTML =
+        '<p style="color:#ef4444">Erreur de chargement.</p>';
+    }
+  }
+
   return {
     init,
     login,
@@ -743,6 +817,7 @@ const App = (() => {
     loadAdminAdmins,
     createAdmin,
     deleteAdmin,
+    loadSupportHistory,
   };
 })();
 
