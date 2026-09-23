@@ -6,7 +6,7 @@ const {
   sendNouveauGroupeNotification,
 } = require("../services/mail");
 
-const DATE_LIMITE_GLOBALE = new Date("2026-06-15");
+const DATE_LIMITE_GLOBALE = new Date("2027-06-15");
 
 function renameFile(originalname, nomGroupe, categorie) {
   const ext = originalname.split(".").pop();
