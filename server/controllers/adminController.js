@@ -89,7 +89,7 @@ async function createAssociation(req, res) {
     include: { association: true },
   });
   await sendCredentials({
-    to: "bonnier.gabin@yahoo.com", // temporaire pour test
+    to: email,
     nomAssociation: nom,
     username,
     password: plainPassword,
