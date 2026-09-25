@@ -574,20 +574,32 @@ const App = (() => {
           '<div class="empty-state"><div class="empty-state__text">Aucun compte</div></div>';
         return;
       }
-      list.innerHTML = data
-        .map(
-          (u) => `
-      <div class="assoc-card">
-        <span class="avatar avatar--md">${u.role === "ADMIN" ? "AD" : Helpers.initiales(u.association?.nom || u.username)}</span>
-        <div class="assoc-card__info">
-          <div class="assoc-card__name">${u.association?.nom || u.username}</div>
-          <div class="assoc-card__meta">${u.email} · <span style="color:var(--gold)">${u.role}</span> · créé le ${Helpers.formatDate(u.createdAt)}</div>
+
+      const admins = data.filter((u) => u.role === "ADMIN");
+      const users = data.filter((u) => u.role !== "ADMIN");
+
+      const renderCard = (u) => `
+        <div class="assoc-card">
+          <span class="avatar avatar--md">${u.role === "ADMIN" ? "AD" : Helpers.initiales(u.association?.nom || u.username)}</span>
+          <div class="assoc-card__info">
+            <div class="assoc-card__name">${u.association?.nom || u.username}</div>
+            <div class="assoc-card__meta">${u.email} · <span style="color:var(--gold)">${u.role}</span> · créé le ${Helpers.formatDate(u.createdAt)}</div>
+          </div>
+          ${u.role !== "ADMIN" ? `<button class="btn btn--danger btn--sm" onclick="App.deleteCompte('${u.id}', '${(u.association?.nom || u.username).replace(/'/g, "\\'")}')">Supprimer</button>` : ""}
         </div>
-        ${u.role !== "ADMIN" ? `<button class="btn btn--danger btn--sm" onclick="App.deleteCompte('${u.id}', '${(u.association?.nom || u.username).replace(/'/g, "\\'")}')">Supprimer</button>` : ""}
-      </div>
-    `,
-        )
-        .join("");
+      `;
+
+      list.innerHTML = `
+        <p class="section-label" style="margin-top: 10px;">👑 Administrateurs (${admins.length})</p>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom: 24px;">
+          ${admins.length > 0 ? admins.map(renderCard).join("") : '<div class="empty-state"><div class="empty-state__text muted">Aucun administrateur</div></div>'}
+        </div>
+
+        <p class="section-label">🎭 Associations / Utilisateurs (${users.length})</p>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          ${users.length > 0 ? users.map(renderCard).join("") : '<div class="empty-state"><div class="empty-state__text muted">Aucune association</div></div>'}
+        </div>
+      `;
     } catch {
       list.innerHTML =
         '<div class="empty-state"><div class="empty-state__text">Erreur de chargement</div></div>';
