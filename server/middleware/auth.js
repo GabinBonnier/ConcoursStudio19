@@ -26,7 +26,7 @@ function requireAssociation(req, res, next) {
 }
 
 function requireSuperAdmin(req, res, next) {
-  if (req.user?.role !== "ADMIN" || req.user?.email !== "admin@admin.com") {
+  if (req.user?.role !== "ADMIN" || req.user?.email?.toLowerCase() !== "admin@admin.com") {
     return res
       .status(403)
       .json({ error: "Accès strictement réservé au Super Administrateur" });

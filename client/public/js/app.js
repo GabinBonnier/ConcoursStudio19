@@ -9,6 +9,7 @@ const App = (() => {
     Router.init();
     try {
       currentUser = await API.auth.me();
+      window.dispatchEvent(new Event("support-auth-change"));
       if (currentUser.role === "ADMIN") await loadAdminDashboard();
       else await loadAssociationDashboard();
     } catch {
@@ -25,6 +26,7 @@ const App = (() => {
     try {
       const res = await API.auth.login(email, password);
       currentUser = await API.auth.me();
+      window.dispatchEvent(new Event("support-auth-change"));
       if (res.role === "ADMIN") await loadAdminDashboard();
       else await loadAssociationDashboard();
     } catch (e) {
@@ -37,6 +39,8 @@ const App = (() => {
   async function logout() {
     await API.auth.logout().catch(() => {});
     currentUser = null;
+    document.getElementById("admin-ia-container")?.replaceChildren();
+    window.dispatchEvent(new Event("support-auth-change"));
     currentAssociation = null;
     Router.show("view-login");
   }
@@ -730,71 +734,90 @@ const App = (() => {
       .forEach((m) => m.classList.remove("is-open"));
   }
 
+  let supportHistoryVersion = 0;
   async function loadSupportHistory() {
     const container = document.getElementById("admin-ia-container");
     if (!container) return;
+    const version = ++supportHistoryVersion;
+    const accountId = currentUser?.id;
     container.innerHTML = '<div class="spinner"></div>';
-
+    function element(tag, className, text) {
+      const node = document.createElement(tag);
+      node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
     try {
-      const res = await fetch("/api/admin/support-history");
-      const { conversations } = await res.json();
-
-      if (!conversations || conversations.length === 0) {
-        container.innerHTML =
-          '<p style="color:#71717a">Aucun échange pour le moment.</p>';
-        return;
-      }
-
-      container.innerHTML = `
-        <div style="width:35%; overflow-y:auto; border-right:1px solid rgba(255,255,255,0.08); padding-right:12px; display:flex; flex-direction:column; gap:8px;">
-          ${conversations
-            .map((c) => {
-              const firstMsg =
-                c.messages.find((m) => m.role === "user")?.text ||
-                "Session vide";
-              const date = new Date(c.createdAt).toLocaleDateString("fr-FR", {
-                day: "2-digit",
-                month: "short",
-                hour: "2-digit",
-                minute: "2-digit",
-              });
-              return `
-              <div class="ia-item" data-id="${c.id}" style="padding:10px; background:#1c1c1f; border-radius:8px; cursor:pointer; border:1px solid rgba(255,255,255,0.05);">
-                <div style="font-size:11px; color:var(--gold, #d4af37);">${date} ·${c.messages.length} msg</div>
-                <div style="font-size:13px; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${firstMsg}</div>
-              </div>
-            `;
-            })
-            .join("")}
-        </div>
-        <div id="ia-detail" style="flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:10px;">
-          <p style="color:#71717a; margin:auto;">Sélectionnez une discussion à gauche.</p>
-        </div>
-      `;
-
-      document.querySelectorAll(".ia-item").forEach((item) => {
-        item.addEventListener("click", () => {
-          const conv = conversations.find((c) => c.id === item.dataset.id);
-          const detail = document.getElementById("ia-detail");
-          detail.innerHTML = conv.messages
-            .map(
-              (m) => `
-            <div style="max-width:85%; padding:10px 12px; border-radius:8px; font-size:13px; ${
-              m.role === "user"
-                ? "align-self:flex-end; background:var(--gold, #d4af37); color:#111;"
-                : "align-self:flex-start; background:#242427; color:#fff;"
-            }">
-              <small style="display:block; opacity:0.7; font-size:10px; margin-bottom:2px;">${m.role === "user" ? "Utilisateur" : "IA"}</small>
-              ${m.text.replace(/\n/g, "<br>")}
-            </div>
-          `,
-            )
-            .join("");
+      const res = await fetch("/api/admin/support-history", { credentials: "include" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(res.status === 403
+        ? "Cette section est réservée au compte admin@admin.com."
+        : res.status === 401 ? "Reconnectez-vous pour consulter les discussions."
+        : "Impossible de charger les discussions. Réessayez.");
+      if (version !== supportHistoryVersion || currentUser?.id !== accountId) return;
+      const conversations = data.conversations;
+      if (!Array.isArray(conversations)) throw new Error("Réponse invalide du serveur.");
+      container.replaceChildren();
+      const sidebar = element("div", "ia-sidebar");
+      const search = element("input", "field__input");
+      search.type = "search";
+      search.placeholder = "Rechercher une discussion…";
+      search.setAttribute("aria-label", "Rechercher dans les discussions IA");
+      const count = element("p", "ia-count");
+      const list = element("div", "ia-list");
+      const detail = element("div", "ia-detail");
+      sidebar.append(search, count, list);
+      container.append(sidebar, detail);
+      let selectedId = null;
+      function selectConversation(conv) {
+        selectedId = conv.id;
+        list.querySelectorAll("button").forEach(button => {
+          const selected = button.dataset.id === conv.id;
+          button.classList.toggle("is-selected", selected);
+          button.setAttribute("aria-pressed", String(selected));
         });
-      });
-    } catch (e) {
-      container.innerHTML =
-        '<p style="color:#ef4444">Erreur de chargement.</p>';
+        detail.replaceChildren();
+        detail.append(element("h2", "ia-title", conv.title === "Nouvelle discussion"
+          ? conv.messages.find(m => m.role === "user")?.text.slice(0, 80) || conv.title : conv.title));
+        detail.append(element("p", "ia-meta", conv.user
+          ? `${conv.user.username} · ${conv.user.email}` : "Ancienne conversation · compte non identifié"));
+        if (!conv.messages.length) detail.append(element("p", "ia-meta", "Aucun message dans cette discussion."));
+        conv.messages.forEach(message => {
+          const bubble = element("div", `ia-message ${message.role === "user" ? "ia-user" : "ia-model"}`);
+          bubble.append(element("small", "ia-meta", `${message.role === "user" ? "Utilisateur" : "IA"} · ${Helpers.formatDateTime(message.createdAt)}`));
+          bubble.append(element("div", "ia-message-text", message.text));
+          detail.append(bubble);
+        });
+        detail.scrollTop = 0;
+      }
+      function renderList() {
+        const query = search.value.trim().toLocaleLowerCase("fr");
+        const filtered = conversations.filter(conv =>
+          [conv.title, conv.user?.username, conv.user?.email, ...conv.messages.map(m => m.text)]
+            .filter(Boolean).join(" ").toLocaleLowerCase("fr").includes(query));
+        list.replaceChildren();
+        count.textContent = `${filtered.length} discussion${filtered.length > 1 ? "s" : ""}`;
+        filtered.forEach(conv => {
+          const button = element("button", "ia-item");
+          button.type = "button";
+          button.dataset.id = conv.id;
+          button.append(element("span", "ia-meta", `${Helpers.formatDateTime(conv.updatedAt)} · ${conv.messages.length} messages`));
+          button.append(element("span", "ia-item-title", conv.title === "Nouvelle discussion"
+            ? conv.messages.find(m => m.role === "user")?.text || conv.title : conv.title));
+          button.append(element("span", "ia-meta", conv.user?.username || "Ancienne conversation"));
+          button.addEventListener("click", () => selectConversation(conv));
+          list.append(button);
+        });
+        if (!filtered.length) {
+          list.append(element("p", "ia-meta", query ? "Aucun résultat." : "Aucune conversation enregistrée."));
+          detail.replaceChildren(element("p", "ia-meta", "Aucune discussion à afficher."));
+        } else selectConversation(filtered.find(conv => conv.id === selectedId) || filtered[0]);
+      }
+      search.addEventListener("input", renderList);
+      renderList();
+    } catch (error) {
+      if (version !== supportHistoryVersion || currentUser?.id !== accountId) return;
+      container.replaceChildren(element("p", "ia-error", error.message));
     }
   }
 

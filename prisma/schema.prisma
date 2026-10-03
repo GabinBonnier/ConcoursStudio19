@@ -15,6 +15,7 @@ model User {
   role         String       @default("ASSOCIATION")
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
+  supportConversations SupportConversation[]
   association  Association?
   mustChangePassword Boolean @default(false)
 }
@@ -79,6 +80,10 @@ model Faq {
 }
 
 model SupportConversation {
+  title     String           @default("Nouvelle discussion")
+  userId    String?
+  user      User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, updatedAt])
   id        String           @id @default(cuid())
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt

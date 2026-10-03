@@ -374,7 +374,8 @@
     <main class="main">
       <h1 class="page-title">Discussions Support IA</h1>
       <p class="page-subtitle--muted">Historique des échanges posés à l'assistant</p>
-      <div id="admin-ia-container" style="display: flex; gap: 20px; height: calc(100vh - 180px); margin-top: 16px;">
+      <button class="btn btn--outline btn--sm" onclick="App.goAdminNav('view-admin-ia')">Actualiser les discussions</button>
+      <div id="admin-ia-container">
         <div class="spinner"></div>
       </div>
     </main>
@@ -613,7 +614,11 @@
         </div>
       </div>
 
-      <div id="support-messages">
+      <div class="support-conversations">
+        <select id="support-history" aria-label="Historique des discussions"><option value="">Nouvelle discussion</option></select>
+        <button id="support-new-chat" type="button">+ Nouveau chat</button>
+      </div>
+      <div id="support-messages" aria-live="polite">
         <div class="support-msg bot-msg">
           Bonjour ! Posez votre question, je recherche la réponse immédiatement.
         </div>

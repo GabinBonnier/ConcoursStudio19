@@ -47,7 +47,8 @@ router.get("/support-history", requireSuperAdmin, async (req, res) => {
   try {
     const conversations = await prisma.supportConversation.findMany({
       include: {
-        messages: { orderBy: { createdAt: "asc" } },
+        messages: { orderBy: [{ createdAt: "asc" }, { role: "desc" }] },
+        user: { select: { username: true, email: true } },
       },
       orderBy: { updatedAt: "desc" },
     });

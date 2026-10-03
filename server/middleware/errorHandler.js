@@ -4,7 +4,9 @@ function errorHandler(err, req, res, next) {
     return res.status(400).json({ error: 'Données invalides', details: err.errors });
   }
   const status = err.status || err.statusCode || 500;
-  const message = err.message || 'Erreur interne du serveur';
+  const message = status >= 500
+    ? 'Erreur interne du serveur. Veuillez réessayer dans quelques instants.'
+    : err.message || 'Erreur de requête';
   res.status(status).json({ error: message });
 }
 
